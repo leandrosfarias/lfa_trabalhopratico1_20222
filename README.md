@@ -2,4 +2,5 @@
 Trabalho Prático 1 da disciplina Linguagens Formais e Autômatos.
 ## Integrantes:
 * Leandro Silva Farias
-* José Osmário Batista de Góis Júnior 
+* Marcelo Augusto de Souza Cardoso
+* João Victor de Almeida Pinto
