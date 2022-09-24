@@ -4,3 +4,5 @@ Trabalho Prático 1 da disciplina Linguagens Formais e Autômatos.
 * Leandro Silva Farias
 * Marcelo Augusto de Souza Cardoso
 * João Victor de Almeida Pinto
+
+## Como Testar:
