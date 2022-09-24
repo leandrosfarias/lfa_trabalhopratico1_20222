@@ -1,35 +1,7 @@
 import re
 
-
-# from .abertura_arquivo import leitura
-
-def leitura(path):
-    automato = {}
-
-    with open(path) as arquivo:
-
-        linhas = arquivo.readlines()
-
-        conteudos = []
-        for cabecalho in range(len(linhas)):
-            if '#' in linhas[cabecalho]:
-                indice_cabecalho = cabecalho
-                conteudo = []
-                for indice_conteudo in range(indice_cabecalho + 1, len(linhas)):
-                    if '#' not in linhas[indice_conteudo]:
-                        conteudo.append(linhas[indice_conteudo].strip())
-                    else:
-                        break
-                conteudos.append(conteudo.copy())
-                conteudo.clear()
-
-    automato['estados'], automato['estado_inicial'], automato['estados_aceitacao'], automato['alfabeto'], automato[
-        'transicoes'] = conteudos
-
-    return automato
-
-
 class Automato:
+
     def __init__(
             self,
             estados: list,
@@ -46,6 +18,7 @@ class Automato:
         self.matriz_transicoes = []
         self.set_transicoes(self.transicoes)
 
+
     def set_transicoes(self, transicoes):
         for t in transicoes:
             self.matriz_transicoes.append(re.split('[:>]', t))
@@ -55,11 +28,11 @@ class Automato:
             for transicao_ in self.matriz_transicoes:
                 if transicao != transicao_ and transicao[0] == transicao_[0] and \
                         transicao[1] == transicao_[1] and transicao[2] != transicao_[2]:
-                    return print("Não Deterministico")
+                    return "Não Deterministico"
             if '$' in transicao:
-                return print("Não Deterministico com Transição Vazia")
+                return "Não Deterministico com Transição Vazia"
 
-        return print("Deterministico")
+        return "Deterministico"
 
     def transicao(self, estado_origem, simbolo):
         for transicao in self.matriz_transicoes:
@@ -68,16 +41,16 @@ class Automato:
 
     def analise_palavra(self, palavra):
         if self.estado_inicial in self.estados_aceitacao and len(palavra) == 0:
-            return True
+            return print("Palavra Aceita!")
         estado_atual = self.estado_inicial[0]
         for simbolo in palavra:
             estado_atual = self.transicao(estado_atual, simbolo)
         if estado_atual in self.estados_aceitacao:
-            return print("Aceita!")
+            return print("Palavra Aceita!")
         else:
-            return print("Rejeitada!")
+            return print("Palavra Rejeitada!")
 
-    def __str__(self):
+    def estrutura(self):
         print(f'''
       Estados: {self.estados}
       Estado Inicial: {self.estado_inicial}

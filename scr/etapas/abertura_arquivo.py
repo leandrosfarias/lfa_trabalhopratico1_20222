@@ -1,3 +1,6 @@
+import re
+
+
 def leitura(path):
     automato = {}
 
@@ -18,7 +21,34 @@ def leitura(path):
                 conteudos.append(conteudo.copy())
                 conteudo.clear()
 
-    automato['estados'], automato['estado_inicial'], automato['estados_aceitacao'], automato['alfabeto'], automato[
-        'transicoes'] = conteudos
+
+        transicoes_formatadas = []
+        for transicao in conteudos[-1]:
+            if len(re.split('[:>]', transicao.strip())[1]) > 1 and \
+                    len(re.split('[:>]', transicao.strip())[-1]) > 2:
+                for caracter in re.split('[:>]', transicao.strip())[1]:
+                    for estado in re.split('[,]', re.split('[:>]', transicao.strip())[-1]):
+                        if caracter != ',':
+                            transicoes_formatadas.append(transicao.strip()[0:2] + ':' + caracter + '>' + estado)
+
+            elif len(re.split('[:>]', transicao.strip())[1]) > 1:
+                for caracter in re.split('[:>]', transicao.strip())[1]:
+                    if caracter != ',':
+                        transicoes_formatadas.append(transicao.strip()[0:2] + ':' + caracter + '>' + transicao.strip()[-2:])
+
+            elif len(re.split('[:>]', transicao.strip())[-1]) > 2:
+                for estado in re.split('[,]', re.split('[:>]', transicao.strip())[-1]):
+                    if estado != ',':
+                        transicoes_formatadas.append(transicao.strip()[0:2] + ':' + transicao[3] + '>' + estado)
+            else:
+                transicoes_formatadas.append(transicao.strip())
+
+    conteudos[-1] = transicoes_formatadas
+
+    automato['estados'], \
+    automato['estado_inicial'], \
+    automato['estados_aceitacao'], \
+    automato['alfabeto'], \
+    automato['transicoes'] = conteudos
 
     return automato
