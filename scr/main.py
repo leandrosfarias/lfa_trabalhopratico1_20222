@@ -1,4 +1,4 @@
-from etapas import abertura_arquivo
+from etapas import abertura_arquivo, transformacao_NFA
 from modelo import Automato
 
 def main(arquivo_automato, palavra):
@@ -15,7 +15,12 @@ def main(arquivo_automato, palavra):
         return automato.analise_palavra(palavra)
 
     elif automato.tipo() == "Não Deterministico":
-        print('Não deterministico')
+        tabela = {}
+        transformacao_NFA.tabela_transicao(automato, tabela, [automato.estado_inicial[0]])
+        tabela_afd = transformacao_NFA.tabela_transicao(automato, tabela, [automato.estado_inicial[0]])
+        afd = transformacao_NFA.transformacao_NFA(automato, tabela)
+        afd.estrutura()
+        afd.analise_palavra(palavra)
 
     elif automato.tipo() == "Não Deterministico ":
         pass
