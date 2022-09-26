@@ -1,7 +1,8 @@
-from etapas import abertura_arquivo, transformacao_NFA
+from etapas import abertura_arquivo, transformacao_NFA, transformacao_eNFA
 from modelo import Automato
 
 def main(arquivo_automato, palavra):
+
     conjunto = abertura_arquivo.leitura(arquivo_automato)
 
     automato = Automato.Automato(conjunto['estados'],
@@ -11,20 +12,48 @@ def main(arquivo_automato, palavra):
                         conjunto['transicoes'])
 
 
+
     if automato.tipo() == "Deterministico":
-        return automato.analise_palavra(palavra)
+        print(f"Esse automato é {automato.tipo()}")
+        print()
+        print("Estrutura do Automato:")
+        automato.estrutura()
+        print()
+        automato.analise_palavra(palavra)
+
+
 
     elif automato.tipo() == "Não Deterministico":
+        print(f"Esse automato é {automato.tipo()}")
+        print()
+        print("Tabela de Transformação")
         tabela = {}
-        transformacao_NFA.tabela_transicao(automato, tabela, [automato.estado_inicial[0]])
         tabela_afd = transformacao_NFA.tabela_transicao(automato, tabela, [automato.estado_inicial[0]])
+        print(tabela_afd)
+        print()
+        print("Estrutura do automato transformado")
         afd = transformacao_NFA.transformacao_NFA(automato, tabela)
-        afd.estrutura()
+        print(afd.estrutura())
+        print()
         afd.analise_palavra(palavra)
 
-    elif automato.tipo() == "Não Deterministico ":
-        pass
+
+
+    elif automato.tipo() == "Não Deterministico com Transições Vazias":
+        print(f"Esse automato é {automato.tipo()}")
+        print()
+        print("Tabela de Transformação")
+        tabela = {}
+        tabela_afd = transformacao_eNFA.tabela_transicao_e(automato, tabela, [automato.estado_inicial[0]])
+        print(tabela_afd)
+        print()
+        print("Estrutura do automato transformado")
+        afd = transformacao_eNFA.transformacao_eNFA(tabela_afd, automato)
+        print(afd.estrutura())
+        print()
+        afd.analise_palavra(palavra)
+
 
 
 if __name__ == '__main__':
-    main('./testes/automatos/NFA.txt', '11111001')
+    main('./testes/automatos/{nome_do_arquivo}.txt', '{palavra}')

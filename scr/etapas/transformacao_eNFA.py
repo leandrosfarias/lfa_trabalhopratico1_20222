@@ -31,7 +31,7 @@ def tabela_transicao_e(automato, tabela, conjunto):
                             tabela[(tuple(conjunto), s)].append(estado_alcancado)
 
                             if tuple(conjunto)[estado] in t[0] and s in t[1]:
-                                if tuple(conjunto) not in tabela[(tuple(conjunto), s)]:
+                                if tuple(conjunto)[estado] not in tabela[(tuple(conjunto), s)]:
                                     tabela[(tuple(conjunto), s)].append(t[-1])
 
         for conjunto_ in tabela.values():
@@ -54,7 +54,7 @@ def tabela_transicao_e(automato, tabela, conjunto):
                                 tabela[(tuple(conjunto), s)].append(estado_alcancado)
 
                                 if tuple(conjunto)[estado] in t[0] and s in t[1]:
-                                    if tuple(conjunto) not in tabela[(tuple(conjunto), s)]:
+                                    if tuple(conjunto)[estado] not in tabela[(tuple(conjunto), s)]:
                                         tabela[(tuple(conjunto), s)].append(t[-1])
 
         for conjunto_ in tabela.values():
@@ -66,7 +66,6 @@ def tabela_transicao_e(automato, tabela, conjunto):
 
 
 def transformacao_eNFA(tabela, automato):
-    tabela_afd = tabela
     estados_afd = set()
     transicoes = []
     estados_aceitacao = []
