@@ -15,11 +15,11 @@ def main(arquivo_automato, palavra):
         return automato.analise_palavra(palavra)
 
     elif automato.tipo() == "Não Deterministico":
-        pass
+        print('Não deterministico')
 
     elif automato.tipo() == "Não Deterministico ":
         pass
 
 
 if __name__ == '__main__':
-    main('./testes/automatos/DFA1.txt', '')
+    main('./testes/automatos/NFA.txt', '11111001')
