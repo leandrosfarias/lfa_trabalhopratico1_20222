@@ -18,4 +18,4 @@ Trabalho Prático 1 da disciplina Linguagens Formais e Autômatos.
 
 # OBSERVAÇÃO:
 
-- Em nossos testes automatos com estados formados apenas com string numéricas apresentaram inconsistências por isso recomendamos o uso do padrão do simulador como por exemplo: "s0, s1, s2" ou qualquer outra letra.
+- Em nossos testes automatos com estados formados apenas com string com pelo menos 2 caracteres, seguindo o exemplo do simulador, Ex: S0, S1, S2. 
