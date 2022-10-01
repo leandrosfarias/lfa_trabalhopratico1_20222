@@ -19,3 +19,9 @@ Trabalho Prático 1 da disciplina Linguagens Formais e Autômatos.
 # OBSERVAÇÃO:
 
 - Representação dos estados deve ser feita com pelo menos 2 caracteres, seguindo o exemplo do simulador, Ex: S0, S1, S2. 
+
+## Notebook
+
+Acesse o projeto pelo seguinte notebook:
+
+- [notebook_do_projeto](https://colab.research.google.com/drive/1MPs5NwAbL7cZ0uWj6A5xQa51Bixhn7ic?usp=sharing)
