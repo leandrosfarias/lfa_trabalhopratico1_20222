@@ -5,77 +5,57 @@ def e_fechamento(automato, estado):
     alcanca = [estado]
     for transicao in automato.matriz_transicoes:
         if estado == transicao[0] and "$" in transicao[1]:
-            alcanca.append(transicao[2])
-            estado_aux = transicao[2]
+            if transicao[2] not in alcanca:
+                alcanca.append(transicao[2])
+                estado_aux = transicao[2]
 
-            for transicao_ in automato.matriz_transicoes:
-                if estado_aux == transicao_[0] and "$" in transicao_[1]:
-                    if transicao_[2] not in alcanca:
-                        alcanca.append(transicao_[2])
-                        estado_aux = transicao_[2]
+                for transicao_ in automato.matriz_transicoes:
+                    if estado_aux == transicao_[0] and "$" in transicao_[1]:
+                        if transicao_[2] not in alcanca:
+                            alcanca.append(transicao_[2])
+                            estado_aux = transicao_[2]
 
     return alcanca
 
 
-def tabela_transicao_e(automato, tabela, conjunto):
-    if len(tabela) == 0:
+def tabela_transicao_e(automato, novos_estados, tabela, conjunto):
 
-        for s in automato.alfabeto:
-            tabela[(tuple(conjunto), s)] = []
+    if "".join(conjunto) not in novos_estados:
+        novos_estados.append("".join(conjunto))
 
-            for t in automato.matriz_transicoes:
-                for estado in range(len(tuple(conjunto))):
+        for simbolo in automato.alfabeto:
+            tabela[(tuple(conjunto), simbolo)] = ["vazio"]
+            for estado in conjunto:
 
-                    for estado_alcancado in e_fechamento(automato, tuple(conjunto)[estado]):
-                        if estado_alcancado not in tabela[(tuple(conjunto), s)]:
-                            tabela[(tuple(conjunto), s)].append(estado_alcancado)
+                for estado_alcancado in e_fechamento(automato, estado):
+                    if estado_alcancado not in tabela[(tuple(conjunto), simbolo)]:
+                        if "vazio" in tabela[(tuple(conjunto), simbolo)]:
+                            tabela[(tuple(conjunto), simbolo)].remove("vazio")
+                            tabela[(tuple(conjunto), simbolo)].append(estado_alcancado)
+                        else:
+                            tabela[(tuple(conjunto), simbolo)].append(estado_alcancado)
 
-                            if tuple(conjunto)[estado] in t[0] and s in t[1]:
-                                if tuple(conjunto)[estado] not in tabela[(tuple(conjunto), s)]:
-                                    tabela[(tuple(conjunto), s)].append(t[-1])
+                for transicao in automato.matriz_transicoes:
+                    if estado in transicao[0] and simbolo in transicao[1]:
+                        if transicao[2] not in tabela[(tuple(conjunto), simbolo)]:
+                            if "vazio" in tabela[(tuple(conjunto), simbolo)]:
+                                tabela[(tuple(conjunto), simbolo)].remove("vazio")
+                                tabela[(tuple(conjunto), simbolo)].append(transicao[2])
+                            else:
+                                tabela[(tuple(conjunto), simbolo)].append(transicao[2])
 
-        for conjunto_ in tabela.values():
-            if "".join(conjunto_) not in automato.estados:
-                return tabela_transicao_e(automato, tabela, conjunto_)
-
+    for conjunto_ in tabela.values():
+        if "".join(conjunto_) not in novos_estados:
+            return tabela_transicao_e(automato, novos_estados, tabela, conjunto_)
 
     else:
-        if "".join(conjunto) not in automato.estados:
-            automato.estados.append("".join(conjunto))
-
-            for s in automato.alfabeto:
-                tabela[(tuple(conjunto), s)] = []
-
-                for t in automato.matriz_transicoes:
-                    for estado in range(len(tuple(conjunto))):
-
-                        for estado_alcancado in e_fechamento(automato, tuple(conjunto)[estado]):
-                            if estado_alcancado not in tabela[(tuple(conjunto), s)]:
-                                tabela[(tuple(conjunto), s)].append(estado_alcancado)
-
-                                if tuple(conjunto)[estado] in t[0] and s in t[1]:
-                                    if tuple(conjunto)[estado] not in tabela[(tuple(conjunto), s)]:
-                                        tabela[(tuple(conjunto), s)].append(t[-1])
-
-        for conjunto_ in tabela.values():
-            if "".join(conjunto_) not in automato.estados:
-                return tabela_transicao_e(automato, tabela, conjunto_)
-
-        else:
-            return tabela
+        return tabela
 
 
-def transformacao_eNFA(tabela, automato):
-    estados_afd = set()
+
+def transformacao_eNFA(tabela, novos_estados, automato):
     transicoes = []
     estados_aceitacao = []
-
-    # Pegando os estados
-    for linha in list(tabela.keys()):
-        if len(linha[0]) > 1:
-            estados_afd.add("".join(linha[0]))
-        else:
-            estados_afd.add(linha[0][0])
 
     # Pegando as transições
     for k, v in tabela.items():
@@ -88,10 +68,11 @@ def transformacao_eNFA(tabela, automato):
                 estados_aceitacao.append("".join(conjunto))
 
     afd = Automato(
-        estados=list(estados_afd),
-        estado_inicial=automato.estado_inicial,
+        estados=novos_estados,
+        estado_inicial=novos_estados[0],
         estados_aceitacao=estados_aceitacao,
         alfabeto=automato.alfabeto,
         transicoes=transicoes,
     )
+
     return afd

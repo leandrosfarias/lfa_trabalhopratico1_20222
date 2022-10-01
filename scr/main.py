@@ -28,11 +28,12 @@ def main(arquivo_automato, palavra):
         print()
         print("Tabela de Transformação")
         tabela = {}
-        tabela_afd = transformacao_NFA.tabela_transicao(automato, tabela, [automato.estado_inicial[0]])
+        novos_estados = []
+        tabela_afd = transformacao_NFA.tabela_transicao(automato, novos_estados, tabela, [automato.estado_inicial[0]])
         print(tabela_afd)
         print()
         print("Estrutura do automato transformado")
-        afd = transformacao_NFA.transformacao_NFA(automato, tabela)
+        afd = transformacao_NFA.transformacao_NFA(automato, novos_estados, tabela)
         print(afd.estrutura())
         print()
         afd.analise_palavra(palavra)
@@ -44,11 +45,12 @@ def main(arquivo_automato, palavra):
         print()
         print("Tabela de Transformação")
         tabela = {}
-        tabela_afd = transformacao_eNFA.tabela_transicao_e(automato, tabela, [automato.estado_inicial[0]])
+        novos_estados = []
+        tabela_afd = transformacao_eNFA.tabela_transicao_e(automato, novos_estados, tabela, transformacao_eNFA.e_fechamento(automato, automato.estado_inicial[0]))
         print(tabela_afd)
         print()
         print("Estrutura do automato transformado")
-        afd = transformacao_eNFA.transformacao_eNFA(tabela_afd, automato)
+        afd = transformacao_eNFA.transformacao_eNFA(tabela_afd, novos_estados, automato)
         print(afd.estrutura())
         print()
         afd.analise_palavra(palavra)
