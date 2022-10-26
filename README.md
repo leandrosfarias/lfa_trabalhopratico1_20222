@@ -1,10 +1,7 @@
-# lfa_trabalhopratico1_20222
-Trabalho Prático 1 da disciplina Linguagens Formais e Autômatos.
+# Máquina de estados
+### O projeto tem como objetivo analisar linguagens através de automatos Deterministicos, Não deterministicos e Não deterministicos com transição vazia
+A construção dos automatos foi baseada na estrutura do simulador [FSM Simulator](https://ivanzuzak.info/noam/webapps/fsm_simulator/) 
 
-## Integrantes:
-* Leandro Silva Farias
-* Marcelo Augusto de Souza Cardoso
-* João Victor de Almeida Pinto
 
 ## Como Testar:
 
@@ -22,6 +19,6 @@ Trabalho Prático 1 da disciplina Linguagens Formais e Autômatos.
 
 ## Notebook
 
-Acesse o projeto pelo seguinte notebook:
+Acesse o projeto de forma detalhada através do seguinte notebook:
 
 - [notebook_do_projeto](https://colab.research.google.com/drive/1MPs5NwAbL7cZ0uWj6A5xQa51Bixhn7ic?usp=sharing)
